@@ -7,6 +7,6 @@ COPY go.sum .
 RUN go mod download && \
     go build main.go
 
-FROM ubi8/ubi-micro
+FROM ubi8/ubi
 COPY --from=build /opt/app-root/src/main .
 CMD ./main
