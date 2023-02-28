@@ -1,7 +1,7 @@
 kind: ImageStream
 apiVersion: image.openshift.io/v1
 metadata:
-  name: filelogger
+  name: {{ .Release.Name }}-filelogger-is
 spec:
   lookupPolicy:
     local: false

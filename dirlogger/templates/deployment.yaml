@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-filelogger
+  labels:
+    app: {{ .Release.Name }}-filelogger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-filelogger
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-filelogger
+    spec:
+      volumes:
+        - name: loggerdir
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-fileloggeroutput
+      serviceAccountName: {{ .Release.Name }}-serviceaccount 
+      initContainers:
+        - name: init
+          image: alpine:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - chown 1001:1001 /loggerdir;
+          volumeMounts:
+          - name: loggerdir
+            mountPath: /loggerdir
+      containers:
+        - name: bla-filelogger
+          
+          image: image-registry.openshift-image-registry.svc:5000/{{ .Release.Namespace }}/{{ .Release.Name }}-filelogger-is:latest
+          env:
+          - name: PREFIX_CHECKDIR
+            value: "/var/log"
+          - name: PREFIX_LOGDIR
+            value: "/loggerdir/logfile.txt"  
+          volumeMounts:
+            - name: loggerdir
+              mountPath: /loggerdir    
+
+            

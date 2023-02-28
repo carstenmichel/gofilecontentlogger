@@ -1,7 +1,7 @@
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: fileloggerconfig
+  name: {{ .Release.Name }}-filelogger-buildconfig
 spec:
   triggers:
     - type: "ConfigChange"
@@ -14,4 +14,4 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: 'filelogger:latest'
+      name: '{{ .Release.Name }}-filelogger-is:latest'
