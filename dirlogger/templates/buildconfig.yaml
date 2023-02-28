@@ -1,0 +1,17 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: fileloggerconfig
+spec:
+  triggers:
+    - type: "ConfigChange"
+  source:
+    git: 
+      uri: https://github.com/carstenmichel/gofilecontentlogger.git
+      ref: main
+  strategy:
+    type: Docker
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'filelogger:latest'
