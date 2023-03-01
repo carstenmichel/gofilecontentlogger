@@ -7,6 +7,7 @@ import (
 	"time"
 
 	instana "github.com/instana/go-sensor"
+	"github.com/instana/go-sensor/logger"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -58,6 +59,8 @@ write some more or less usefull data to another directory
 and will log to the console.
 */
 func main() {
+	instanalogger := logger.New(log.New())
+	instana.SetLogger(instanalogger)
 	setupEnv()
 	dirs := directories{
 		checkDirectory: viper.GetString("checkdir"),

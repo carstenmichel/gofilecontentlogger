@@ -37,6 +37,10 @@ spec:
             value: "/var/log"
           - name: PREFIX_LOGDIR
             value: "/loggerdir/logfile.txt"  
+          - name: INSTANA_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP  
           volumeMounts:
             - name: loggerdir
               mountPath: /loggerdir    
