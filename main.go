@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	instana "github.com/instana/go-sensor"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -62,6 +63,10 @@ func main() {
 		checkDirectory: viper.GetString("checkdir"),
 		logDirectory:   viper.GetString("logdir"),
 	}
+	instana.InitSensor(&instana.Options{
+		Service:           "gofilelogger",
+		LogLevel:          instana.Debug,
+		EnableAutoProfile: true})
 
 	log.Warn("Hello")
 	for {
